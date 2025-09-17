@@ -25,20 +25,24 @@ export class GameManager {
     const container = this.canvas.parentElement
     const containerRect = container.getBoundingClientRect()
     
-    // Make canvas responsive with proper pixel density
-    const maxSize = Math.min(containerRect.width - 40, window.innerWidth > 768 ? 700 : window.innerWidth - 60)
+    // Calculate optimal canvas size
+    const maxSize = Math.min(containerRect.width - 60, window.innerWidth > 768 ? 800 : window.innerWidth - 40)
     const pixelRatio = window.devicePixelRatio || 1
     
-    // Set actual canvas size (accounting for pixel density)
-    this.canvas.width = maxSize * pixelRatio
-    this.canvas.height = maxSize * pixelRatio
-    
-    // Set display size
+    // Set display size first
     this.canvas.style.width = maxSize + 'px'
     this.canvas.style.height = maxSize + 'px'
     
-    // Scale context to match pixel density
+    // Set actual canvas size for crisp rendering
+    this.canvas.width = maxSize * pixelRatio
+    this.canvas.height = maxSize * pixelRatio
+    
+    // Scale context for high DPI displays
     this.ctx.scale(pixelRatio, pixelRatio)
+    
+    // Store display size for calculations
+    this.displaySize = maxSize
+    this.pixelRatio = pixelRatio
   }
 
   setupUI() {

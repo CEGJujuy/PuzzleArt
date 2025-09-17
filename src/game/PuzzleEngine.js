@@ -28,23 +28,22 @@ export class PuzzleEngine {
   }
 
   calculateDimensions() {
-    const canvasSize = Math.min(this.canvas.style.width.replace('px', ''), this.canvas.style.height.replace('px', ''))
+    // Use the display size from GameManager
+    const canvasSize = parseInt(this.canvas.style.width)
     const padding = 40
     this.puzzleSize = canvasSize - padding * 2
     this.pieceSize = this.puzzleSize / this.gridSize
     
-    // Calculate image scaling
+    // Calculate image scaling to fit puzzle area
     const imageAspect = this.image.width / this.image.height
-    if (imageAspect > 1) {
-      this.imageWidth = this.puzzleSize
-      this.imageHeight = this.puzzleSize / imageAspect
-    } else {
-      this.imageWidth = this.puzzleSize * imageAspect
-      this.imageHeight = this.puzzleSize
-    }
     
-    this.puzzleX = (this.canvas.width - this.imageWidth) / 2
-    this.puzzleY = (this.canvas.height - this.imageHeight) / 2
+    // Always use square puzzle area for consistency
+    this.imageWidth = this.puzzleSize
+    this.imageHeight = this.puzzleSize
+    
+    // Center the puzzle in the canvas (using display coordinates)
+    this.puzzleX = (canvasSize - this.imageWidth) / 2
+    this.puzzleY = (canvasSize - this.imageHeight) / 2
   }
 
   createPieces() {
@@ -134,8 +133,9 @@ export class PuzzleEngine {
 
   getEventPos(e) {
     const rect = this.canvas.getBoundingClientRect()
-    const scaleX = parseInt(this.canvas.style.width) / rect.width
-    const scaleY = parseInt(this.canvas.style.height) / rect.height
+    const displaySize = parseInt(this.canvas.style.width)
+    const scaleX = displaySize / rect.width
+    const scaleY = displaySize / rect.height
     
     let clientX, clientY
     
@@ -262,14 +262,13 @@ export class PuzzleEngine {
   }
 
   render() {
-    // Clear canvas
-    const displayWidth = parseInt(this.canvas.style.width)
-    const displayHeight = parseInt(this.canvas.style.height)
-    this.ctx.clearRect(0, 0, displayWidth, displayHeight)
+    // Clear canvas using display coordinates
+    const displaySize = parseInt(this.canvas.style.width)
+    this.ctx.clearRect(0, 0, displaySize, displaySize)
     
     // Draw background
     this.ctx.fillStyle = '#ffffff'
-    this.ctx.fillRect(0, 0, displayWidth, displayHeight)
+    this.ctx.fillRect(0, 0, displaySize, displaySize)
     
     // Draw puzzle outline in easy mode
     if (this.difficulty === 'easy') {
@@ -288,8 +287,9 @@ export class PuzzleEngine {
   }
 
   drawPuzzleOutline() {
-    this.ctx.strokeStyle = '#bbb'
-    this.ctx.lineWidth = 1.5
+    this.ctx.save()
+    this.ctx.strokeStyle = '#999'
+    this.ctx.lineWidth = 2
     this.ctx.setLineDash([5, 5])
     
     // Draw outer border
@@ -313,10 +313,15 @@ export class PuzzleEngine {
     }
     
     this.ctx.setLineDash([])
+    this.ctx.restore()
   }
 
   drawPiece(piece) {
     this.ctx.save()
+    
+    // Enable image smoothing for better quality
+    this.ctx.imageSmoothingEnabled = true
+    this.ctx.imageSmoothingQuality = 'high'
     
     // Draw shadow
     if (!piece.isConnected) {
@@ -340,8 +345,13 @@ export class PuzzleEngine {
     )
     
     // Draw border
-    this.ctx.strokeStyle = piece.isConnected ? '#4CAF50' : '#999'
-    this.ctx.lineWidth = piece.isConnected ? 2 : 1.5
+    this.ctx.shadowColor = 'transparent'
+    this.ctx.shadowBlur = 0
+    this.ctx.shadowOffsetX = 0
+    this.ctx.shadowOffsetY = 0
+    
+    this.ctx.strokeStyle = piece.isConnected ? '#4CAF50' : '#666'
+    this.ctx.lineWidth = piece.isConnected ? 3 : 2
     this.ctx.strokeRect(piece.currentX, piece.currentY, piece.width, piece.height)
     
     this.ctx.restore()

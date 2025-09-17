@@ -393,9 +393,10 @@ body {
   user-select: none;
   width: 100%;
   height: auto;
+  image-rendering: auto;
+  image-rendering: smooth;
+  image-rendering: high-quality;
   image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
-  image-rendering: pixelated;
 }
 
 .reference-image {
@@ -793,8 +794,9 @@ body {
 /* High DPI displays */
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   #game-canvas {
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
+    image-rendering: auto;
+    image-rendering: smooth;
+    image-rendering: high-quality;
   }
 }
 
