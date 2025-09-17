@@ -1,0 +1,23 @@
+{
+  "name": "puzzleart",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Juego de rompecabezas educativo con imágenes de arte, monumentos y ciencia",
+  "author": "César Eduardo González <gonzalezeduardo_31@hotmail.com>",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  },
+  "keywords": [
+    "puzzle",
+    "game",
+    "educational",
+    "canvas",
+    "javascript"
+  ]
+}
