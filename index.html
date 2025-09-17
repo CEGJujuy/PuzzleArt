@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PuzzleArt - Rompecabezas Educativo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="app">
+    <!-- Tutorial Modal -->
+    <div id="tutorial-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>¡Bienvenido a PuzzleArt!</h2>
+          <button id="close-tutorial" class="close-btn">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="tutorial-step active" data-step="1">
+            <h3>🎨 Elige tu imagen</h3>
+            <p>Selecciona una obra de arte, monumento o imagen científica de nuestra galería, o sube tu propia imagen.</p>
+          </div>
+          <div class="tutorial-step" data-step="2">
+            <h3>🧩 Configura el rompecabezas</h3>
+            <p>Elige la cantidad de piezas (4, 9, 16 o 36) y el modo de dificultad (fácil o difícil).</p>
+          </div>
+          <div class="tutorial-step" data-step="3">
+            <h3>🎯 ¡A jugar!</h3>
+            <p>Arrastra las piezas para armar el rompecabezas. El cronómetro comenzará automáticamente.</p>
+          </div>
+          <div class="tutorial-navigation">
+            <button id="prev-step" class="btn btn-secondary" disabled>Anterior</button>
+            <div class="step-indicators">
+              <span class="step-dot active" data-step="1"></span>
+              <span class="step-dot" data-step="2"></span>
+              <span class="step-dot" data-step="3"></span>
+            </div>
+            <button id="next-step" class="btn btn-primary">Siguiente</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Game Interface -->
+    <header class="header">
+      <div class="container">
+        <h1 class="logo">🎨 PuzzleArt</h1>
+        <div class="header-controls">
+          <button id="tutorial-btn" class="btn btn-outline">Tutorial</button>
+          <button id="new-game-btn" class="btn btn-primary">Nuevo Juego</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="main">
+      <div class="container">
+        <!-- Game Setup -->
+        <div id="setup-screen" class="screen active">
+          <div class="setup-content">
+            <h2>Configura tu rompecabezas</h2>
+            
+            <div class="setup-section">
+              <h3>Elige una imagen</h3>
+              <div class="image-gallery">
+                <div class="image-option" data-image="https://images.pexels.com/photos/1266808/pexels-photo-1266808.jpeg?auto=compress&cs=tinysrgb&w=800">
+                  <img src="https://images.pexels.com/photos/1266808/pexels-photo-1266808.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Mona Lisa">
+                  <span>Arte Clásico</span>
+                </div>
+                <div class="image-option" data-image="https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg?auto=compress&cs=tinysrgb&w=800">
+                  <img src="https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Arquitectura">
+                  <span>Arquitectura</span>
+                </div>
+                <div class="image-option" data-image="https://images.pexels.com/photos/1252890/pexels-photo-1252890.jpeg?auto=compress&cs=tinysrgb&w=800">
+                  <img src="https://images.pexels.com/photos/1252890/pexels-photo-1252890.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Naturaleza">
+                  <span>Naturaleza</span>
+                </div>
+                <div class="image-option" data-image="https://images.pexels.com/photos/2156/sky-earth-space-working.jpg?auto=compress&cs=tinysrgb&w=800">
+                  <img src="https://images.pexels.com/photos/2156/sky-earth-space-working.jpg?auto=compress&cs=tinysrgb&w=300" alt="Ciencia">
+                  <span>Ciencia</span>
+                </div>
+              </div>
+              
+              <div class="upload-section">
+                <label for="image-upload" class="upload-btn">
+                  📁 Subir mi imagen
+                  <input type="file" id="image-upload" accept="image/*" hidden>
+                </label>
+              </div>
+            </div>
+
+            <div class="setup-section">
+              <h3>Cantidad de piezas</h3>
+              <div class="piece-options">
+                <button class="piece-btn active" data-pieces="4">2×2 (4 piezas)</button>
+                <button class="piece-btn" data-pieces="9">3×3 (9 piezas)</button>
+                <button class="piece-btn" data-pieces="16">4×4 (16 piezas)</button>
+                <button class="piece-btn" data-pieces="36">6×6 (36 piezas)</button>
+              </div>
+            </div>
+
+            <div class="setup-section">
+              <h3>Dificultad</h3>
+              <div class="difficulty-options">
+                <button class="difficulty-btn active" data-difficulty="easy">
+                  <span class="difficulty-icon">😊</span>
+                  <span class="difficulty-text">Fácil</span>
+                  <span class="difficulty-desc">Con guías visuales</span>
+                </button>
+                <button class="difficulty-btn" data-difficulty="hard">
+                  <span class="difficulty-icon">😤</span>
+                  <span class="difficulty-text">Difícil</span>
+                  <span class="difficulty-desc">Sin ayudas</span>
+                </button>
+              </div>
+            </div>
+
+            <button id="start-game-btn" class="btn btn-large btn-primary" disabled>
+              🎮 Comenzar Juego
+            </button>
+          </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="screen">
+          <div class="game-header">
+            <div class="game-info">
+              <div class="info-item">
+                <span class="info-label">Tiempo:</span>
+                <span id="timer" class="info-value">00:00</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Puntuación:</span>
+                <span id="score" class="info-value">0</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Piezas:</span>
+                <span id="pieces-count" class="info-value">0/0</span>
+              </div>
+            </div>
+            <div class="game-controls">
+              <button id="hint-btn" class="btn btn-outline">💡 Pista</button>
+              <button id="pause-btn" class="btn btn-outline">⏸️ Pausa</button>
+            </div>
+          </div>
+
+          <div class="game-area">
+            <div class="canvas-container">
+              <canvas id="game-canvas"></canvas>
+              <div id="reference-image" class="reference-image">
+                <img id="reference-img" src="" alt="Imagen de referencia">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Victory Screen -->
+        <div id="victory-screen" class="screen">
+          <div class="victory-content">
+            <div class="victory-animation">🎉</div>
+            <h2>¡Felicitaciones!</h2>
+            <p>Has completado el rompecabezas</p>
+            <div class="victory-stats">
+              <div class="stat">
+                <span class="stat-label">Tiempo:</span>
+                <span id="final-time" class="stat-value">00:00</span>
+              </div>
+              <div class="stat">
+                <span class="stat-label">Puntuación:</span>
+                <span id="final-score" class="stat-value">0</span>
+              </div>
+            </div>
+            <div class="victory-actions">
+              <button id="play-again-btn" class="btn btn-primary">🔄 Jugar de nuevo</button>
+              <button id="new-puzzle-btn" class="btn btn-outline">🎨 Nuevo rompecabezas</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
