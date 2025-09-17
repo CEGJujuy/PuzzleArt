@@ -28,20 +28,17 @@ export class PuzzleEngine {
   }
 
   calculateDimensions() {
-    // Use the display size from GameManager
-    const canvasSize = parseInt(this.canvas.style.width)
+    // Get canvas size
+    const canvasSize = this.canvas.width
     const padding = 40
     this.puzzleSize = canvasSize - padding * 2
     this.pieceSize = this.puzzleSize / this.gridSize
     
-    // Calculate image scaling to fit puzzle area
-    const imageAspect = this.image.width / this.image.height
-    
-    // Always use square puzzle area for consistency
+    // Use square puzzle area
     this.imageWidth = this.puzzleSize
     this.imageHeight = this.puzzleSize
     
-    // Center the puzzle in the canvas (using display coordinates)
+    // Center the puzzle in the canvas
     this.puzzleX = (canvasSize - this.imageWidth) / 2
     this.puzzleY = (canvasSize - this.imageHeight) / 2
   }
@@ -133,9 +130,8 @@ export class PuzzleEngine {
 
   getEventPos(e) {
     const rect = this.canvas.getBoundingClientRect()
-    const displaySize = parseInt(this.canvas.style.width)
-    const scaleX = displaySize / rect.width
-    const scaleY = displaySize / rect.height
+    const scaleX = this.canvas.width / rect.width
+    const scaleY = this.canvas.height / rect.height
     
     let clientX, clientY
     
@@ -262,13 +258,12 @@ export class PuzzleEngine {
   }
 
   render() {
-    // Clear canvas using display coordinates
-    const displaySize = parseInt(this.canvas.style.width)
-    this.ctx.clearRect(0, 0, displaySize, displaySize)
+    // Clear canvas
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
     
     // Draw background
-    this.ctx.fillStyle = '#ffffff'
-    this.ctx.fillRect(0, 0, displaySize, displaySize)
+    this.ctx.fillStyle = '#f8f9fa'
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
     
     // Draw puzzle outline in easy mode
     if (this.difficulty === 'easy') {
@@ -288,7 +283,7 @@ export class PuzzleEngine {
 
   drawPuzzleOutline() {
     this.ctx.save()
-    this.ctx.strokeStyle = '#999'
+    this.ctx.strokeStyle = '#666'
     this.ctx.lineWidth = 2
     this.ctx.setLineDash([5, 5])
     
@@ -319,10 +314,6 @@ export class PuzzleEngine {
   drawPiece(piece) {
     this.ctx.save()
     
-    // Enable image smoothing for better quality
-    this.ctx.imageSmoothingEnabled = true
-    this.ctx.imageSmoothingQuality = 'high'
-    
     // Draw shadow
     if (!piece.isConnected) {
       this.ctx.shadowColor = 'rgba(0, 0, 0, 0.2)'
@@ -345,13 +336,13 @@ export class PuzzleEngine {
     )
     
     // Draw border
-    this.ctx.shadowColor = 'transparent'
+    this.ctx.shadowColor = ''
     this.ctx.shadowBlur = 0
     this.ctx.shadowOffsetX = 0
     this.ctx.shadowOffsetY = 0
     
-    this.ctx.strokeStyle = piece.isConnected ? '#4CAF50' : '#666'
-    this.ctx.lineWidth = piece.isConnected ? 3 : 2
+    this.ctx.strokeStyle = piece.isConnected ? '#4CAF50' : '#333'
+    this.ctx.lineWidth = piece.isConnected ? 2 : 1
     this.ctx.strokeRect(piece.currentX, piece.currentY, piece.width, piece.height)
     
     this.ctx.restore()
