@@ -393,6 +393,9 @@ body {
   user-select: none;
   width: 100%;
   height: auto;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
 }
 
 .reference-image {

@@ -28,7 +28,7 @@ export class PuzzleEngine {
   }
 
   calculateDimensions() {
-    const canvasSize = Math.min(this.canvas.width, this.canvas.height)
+    const canvasSize = Math.min(this.canvas.style.width.replace('px', ''), this.canvas.style.height.replace('px', ''))
     const padding = 40
     this.puzzleSize = canvasSize - padding * 2
     this.pieceSize = this.puzzleSize / this.gridSize
@@ -134,8 +134,8 @@ export class PuzzleEngine {
 
   getEventPos(e) {
     const rect = this.canvas.getBoundingClientRect()
-    const scaleX = this.canvas.width / rect.width
-    const scaleY = this.canvas.height / rect.height
+    const scaleX = parseInt(this.canvas.style.width) / rect.width
+    const scaleY = parseInt(this.canvas.style.height) / rect.height
     
     let clientX, clientY
     
@@ -263,11 +263,13 @@ export class PuzzleEngine {
 
   render() {
     // Clear canvas
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    const displayWidth = parseInt(this.canvas.style.width)
+    const displayHeight = parseInt(this.canvas.style.height)
+    this.ctx.clearRect(0, 0, displayWidth, displayHeight)
     
     // Draw background
     this.ctx.fillStyle = '#ffffff'
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
+    this.ctx.fillRect(0, 0, displayWidth, displayHeight)
     
     // Draw puzzle outline in easy mode
     if (this.difficulty === 'easy') {
@@ -286,8 +288,8 @@ export class PuzzleEngine {
   }
 
   drawPuzzleOutline() {
-    this.ctx.strokeStyle = '#e0e0e0'
-    this.ctx.lineWidth = 2
+    this.ctx.strokeStyle = '#bbb'
+    this.ctx.lineWidth = 1.5
     this.ctx.setLineDash([5, 5])
     
     // Draw outer border
@@ -338,8 +340,8 @@ export class PuzzleEngine {
     )
     
     // Draw border
-    this.ctx.strokeStyle = piece.isConnected ? '#4CAF50' : '#ddd'
-    this.ctx.lineWidth = piece.isConnected ? 3 : 1
+    this.ctx.strokeStyle = piece.isConnected ? '#4CAF50' : '#999'
+    this.ctx.lineWidth = piece.isConnected ? 2 : 1.5
     this.ctx.strokeRect(piece.currentX, piece.currentY, piece.width, piece.height)
     
     this.ctx.restore()
