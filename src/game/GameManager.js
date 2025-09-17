@@ -25,8 +25,8 @@ export class GameManager {
     const container = this.canvas.parentElement
     const containerRect = container.getBoundingClientRect()
     
-    // Make canvas responsive
-    const maxSize = Math.min(containerRect.width - 40, 600)
+    // Make canvas responsive - larger size
+    const maxSize = Math.min(containerRect.width - 40, window.innerWidth > 768 ? 800 : window.innerWidth - 80)
     this.canvas.width = maxSize
     this.canvas.height = maxSize
     

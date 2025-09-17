@@ -370,9 +370,11 @@ body {
 /* Game area */
 .game-area {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: flex-start;
   gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .canvas-container {
@@ -380,24 +382,29 @@ body {
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  padding: 30px;
+  flex: 1;
+  max-width: 900px;
 }
 
 #game-canvas {
   border-radius: 8px;
   touch-action: none;
   user-select: none;
+  width: 100%;
+  height: auto;
 }
 
 .reference-image {
-  position: absolute;
+  position: sticky;
   top: 20px;
-  right: -220px;
-  width: 200px;
+  width: 250px;
+  min-width: 250px;
   background: white;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  height: fit-content;
 }
 
 .reference-image img {
@@ -667,12 +674,19 @@ body {
   .game-area {
     flex-direction: column;
     align-items: center;
+    gap: 1rem;
+  }
+
+  .canvas-container {
+    padding: 15px;
+    max-width: none;
+    width: 100%;
   }
 
   .reference-image {
     position: static;
-    width: 150px;
-    margin-top: 1rem;
+    width: 200px;
+    min-width: 200px;
   }
 
   .victory-stats {
@@ -723,6 +737,12 @@ body {
 
   .canvas-container {
     padding: 10px;
+    margin: 0 5px;
+  }
+
+  .reference-image {
+    width: 150px;
+    min-width: 150px;
   }
 
   .victory-content {
@@ -735,6 +755,35 @@ body {
 
   .victory-content h2 {
     font-size: 2rem;
+  }
+}
+
+/* Large screens optimization */
+@media (min-width: 1200px) {
+  .game-area {
+    max-width: 1600px;
+  }
+  
+  .canvas-container {
+    max-width: 1000px;
+    padding: 40px;
+  }
+  
+  .reference-image {
+    width: 300px;
+    min-width: 300px;
+  }
+}
+
+/* Medium screens optimization */
+@media (min-width: 769px) and (max-width: 1199px) {
+  .canvas-container {
+    max-width: 700px;
+  }
+  
+  .reference-image {
+    width: 220px;
+    min-width: 220px;
   }
 }
 
