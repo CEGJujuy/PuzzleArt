@@ -130,8 +130,9 @@ export class PuzzleEngine {
 
   getEventPos(e) {
     const rect = this.canvas.getBoundingClientRect()
-    const scaleX = this.canvas.width / rect.width
-    const scaleY = this.canvas.height / rect.height
+    const devicePixelRatio = window.devicePixelRatio || 1
+    const scaleX = (this.canvas.width / devicePixelRatio) / rect.width
+    const scaleY = (this.canvas.height / devicePixelRatio) / rect.height
     
     let clientX, clientY
     
@@ -261,9 +262,13 @@ export class PuzzleEngine {
     // Clear canvas
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
     
+    // Ensure high quality rendering
+    this.ctx.imageSmoothingEnabled = true
+    this.ctx.imageSmoothingQuality = 'high'
+    
     // Draw background
     this.ctx.fillStyle = '#f8f9fa'
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
+    this.ctx.fillRect(0, 0, this.canvas.width / (window.devicePixelRatio || 1), this.canvas.height / (window.devicePixelRatio || 1))
     
     // Draw puzzle outline in easy mode
     if (this.difficulty === 'easy') {
@@ -313,6 +318,10 @@ export class PuzzleEngine {
 
   drawPiece(piece) {
     this.ctx.save()
+    
+    // Ensure high quality image rendering
+    this.ctx.imageSmoothingEnabled = true
+    this.ctx.imageSmoothingQuality = 'high'
     
     // Draw shadow
     if (!piece.isConnected) {

@@ -28,14 +28,27 @@ export class GameManager {
     // Calculate optimal canvas size
     const maxSize = Math.min(containerWidth - 60, window.innerWidth > 768 ? 600 : window.innerWidth - 60)
     
-    // Set canvas size (both display and internal)
+    // Get device pixel ratio for HD rendering
+    const devicePixelRatio = window.devicePixelRatio || 1
+    
+    // Set display size
     this.canvas.style.width = maxSize + 'px'
     this.canvas.style.height = maxSize + 'px'
-    this.canvas.width = maxSize
-    this.canvas.height = maxSize
+    
+    // Set actual canvas size for HD rendering
+    this.canvas.width = maxSize * devicePixelRatio
+    this.canvas.height = maxSize * devicePixelRatio
+    
+    // Scale the context to match device pixel ratio
+    this.ctx.scale(devicePixelRatio, devicePixelRatio)
+    
+    // Enable image smoothing for better quality
+    this.ctx.imageSmoothingEnabled = true
+    this.ctx.imageSmoothingQuality = 'high'
     
     // Store display size for calculations
     this.displaySize = maxSize
+    this.pixelRatio = devicePixelRatio
   }
 
   setupUI() {
@@ -70,6 +83,9 @@ export class GameManager {
         this.config.pieces,
         this.config.difficulty
       )
+      
+      // Pass pixel ratio to puzzle engine
+      this.puzzleEngine.pixelRatio = this.pixelRatio
       
       // Setup puzzle events
       this.puzzleEngine.onPieceConnected = () => {
