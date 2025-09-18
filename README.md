@@ -121,7 +121,3 @@ Este proyecto está bajo la Licencia MIT. Consulta el archivo `LICENSE` para má
 ## 🤝 Contribuciones
 
 Las contribuciones son bienvenidas. Por favor, abre un issue primero para discutir los cambios que te gustaría realizar.
-
----
-
-*Desarrollado con ❤️ por César Eduardo González*
