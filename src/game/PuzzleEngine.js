@@ -29,8 +29,8 @@ export class PuzzleEngine {
 
   calculateDimensions() {
     // Get canvas size
-    const canvasSize = this.canvas.width
-    const padding = 40
+    const canvasSize = this.canvas.width / (window.devicePixelRatio || 1)
+    const padding = 20
     this.puzzleSize = canvasSize - padding * 2
     this.pieceSize = this.puzzleSize / this.gridSize
     

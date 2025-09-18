@@ -382,9 +382,13 @@ body {
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  padding: 30px;
+  padding: 20px;
   flex: 1;
-  max-width: 900px;
+  max-width: 600px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #game-canvas {
@@ -683,15 +687,15 @@ body {
   }
 
   .canvas-container {
-    padding: 15px;
+    padding: 10px;
     max-width: none;
     width: 100%;
   }
 
   .reference-image {
     position: static;
-    width: 200px;
-    min-width: 200px;
+    width: 150px;
+    min-width: 150px;
   }
 
   .victory-stats {
@@ -741,13 +745,13 @@ body {
   }
 
   .canvas-container {
-    padding: 10px;
+    padding: 5px;
     margin: 0 5px;
   }
 
   .reference-image {
-    width: 150px;
-    min-width: 150px;
+    width: 120px;
+    min-width: 120px;
   }
 
   .victory-content {
@@ -770,25 +774,25 @@ body {
   }
   
   .canvas-container {
-    max-width: 1000px;
-    padding: 40px;
+    max-width: 600px;
+    padding: 30px;
   }
   
   .reference-image {
-    width: 300px;
-    min-width: 300px;
+    width: 250px;
+    min-width: 250px;
   }
 }
 
 /* Medium screens optimization */
 @media (min-width: 769px) and (max-width: 1199px) {
   .canvas-container {
-    max-width: 700px;
+    max-width: 500px;
   }
   
   .reference-image {
-    width: 220px;
-    min-width: 220px;
+    width: 200px;
+    min-width: 200px;
   }
 }
 

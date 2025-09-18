@@ -23,10 +23,17 @@ export class GameManager {
 
   setupCanvas() {
     const container = this.canvas.parentElement
-    const containerWidth = container.clientWidth
+    const containerWidth = container.clientWidth - 60 // Account for padding
     
     // Calculate optimal canvas size
-    const maxSize = Math.min(containerWidth - 60, window.innerWidth > 768 ? 600 : window.innerWidth - 60)
+    let maxSize
+    if (window.innerWidth > 1200) {
+      maxSize = Math.min(containerWidth, 500) // Desktop: max 500px
+    } else if (window.innerWidth > 768) {
+      maxSize = Math.min(containerWidth, 400) // Tablet: max 400px
+    } else {
+      maxSize = Math.min(containerWidth, window.innerWidth - 40) // Mobile: fit screen with margin
+    }
     
     // Get device pixel ratio for HD rendering
     const devicePixelRatio = window.devicePixelRatio || 1
