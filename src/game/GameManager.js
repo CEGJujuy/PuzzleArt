@@ -1,12 +1,11 @@
-import { PuzzleEngine } from './PuzzleEngine.js'
+import { DOMPuzzleEngine } from './DOMPuzzleEngine.js'
 import { Timer } from './Timer.js'
 import { ScoreManager } from './ScoreManager.js'
 
 export class GameManager {
   constructor(config) {
     this.config = config
-    this.canvas = document.getElementById('game-canvas')
-    this.ctx = this.canvas.getContext('2d')
+    this.puzzleContainer = document.getElementById('puzzle-board')
     
     this.timer = new Timer()
     this.scoreManager = new ScoreManager(config.difficulty, config.pieces)
@@ -17,45 +16,7 @@ export class GameManager {
     
     this.onVictory = null
     
-    this.setupCanvas()
     this.setupUI()
-  }
-
-  setupCanvas() {
-    const container = this.canvas.parentElement
-    const containerWidth = container.clientWidth - 40 // Account for padding
-    
-    // Calculate optimal canvas size
-    let maxSize
-    if (window.innerWidth > 1200) {
-      maxSize = Math.min(containerWidth, 600) // Desktop: max 600px
-    } else if (window.innerWidth > 768) {
-      maxSize = Math.min(containerWidth, 500) // Tablet: max 500px
-    } else {
-      maxSize = Math.min(containerWidth, window.innerWidth - 30) // Mobile: fit screen with margin
-    }
-    
-    // Get device pixel ratio for HD rendering
-    const devicePixelRatio = window.devicePixelRatio || 1
-    
-    // Set display size
-    this.canvas.style.width = maxSize + 'px'
-    this.canvas.style.height = maxSize + 'px'
-    
-    // Set actual canvas size for HD rendering
-    this.canvas.width = maxSize * devicePixelRatio
-    this.canvas.height = maxSize * devicePixelRatio
-    
-    // Scale the context to match device pixel ratio
-    this.ctx.scale(devicePixelRatio, devicePixelRatio)
-    
-    // Enable image smoothing for better quality
-    this.ctx.imageSmoothingEnabled = true
-    this.ctx.imageSmoothingQuality = 'high'
-    
-    // Store display size for calculations
-    this.displaySize = maxSize
-    this.pixelRatio = devicePixelRatio
   }
 
   setupUI() {
@@ -84,15 +45,12 @@ export class GameManager {
       const image = await this.loadImage(this.config.imageUrl)
       
       // Initialize puzzle engine
-      this.puzzleEngine = new PuzzleEngine(
-        this.canvas,
+      this.puzzleEngine = new DOMPuzzleEngine(
+        this.puzzleContainer,
         image,
         this.config.pieces,
         this.config.difficulty
       )
-      
-      // Pass pixel ratio to puzzle engine
-      this.puzzleEngine.pixelRatio = this.pixelRatio
       
       // Setup puzzle events
       this.puzzleEngine.onPieceConnected = () => {
