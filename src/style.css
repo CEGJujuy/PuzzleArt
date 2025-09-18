@@ -382,13 +382,14 @@ body {
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  padding: 15px;
   flex: 1;
-  max-width: 600px;
+  max-width: 650px;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 400px;
 }
 
 #game-canvas {
@@ -687,9 +688,10 @@ body {
   }
 
   .canvas-container {
-    padding: 10px;
+    padding: 8px;
     max-width: none;
     width: 100%;
+    min-height: 350px;
   }
 
   .reference-image {
@@ -774,8 +776,9 @@ body {
   }
   
   .canvas-container {
-    max-width: 600px;
-    padding: 30px;
+    max-width: 650px;
+    padding: 20px;
+    min-height: 500px;
   }
   
   .reference-image {
@@ -787,7 +790,8 @@ body {
 /* Medium screens optimization */
 @media (min-width: 769px) and (max-width: 1199px) {
   .canvas-container {
-    max-width: 500px;
+    max-width: 550px;
+    min-height: 450px;
   }
   
   .reference-image {

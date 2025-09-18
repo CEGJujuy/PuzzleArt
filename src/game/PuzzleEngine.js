@@ -29,9 +29,15 @@ export class PuzzleEngine {
 
   calculateDimensions() {
     // Get canvas size
-    const canvasSize = this.canvas.width / (window.devicePixelRatio || 1)
-    const padding = 20
-    this.puzzleSize = canvasSize - padding * 2
+    const canvasDisplaySize = this.canvas.width / (window.devicePixelRatio || 1)
+    
+    // Reserve more space for puzzle area and pieces around it
+    const puzzlePadding = 40 // Space around the puzzle area
+    const piecesArea = 60 // Extra space for pieces to be placed around
+    
+    // Calculate puzzle size considering both puzzle area and pieces space
+    const availableSize = canvasDisplaySize - (puzzlePadding * 2)
+    this.puzzleSize = Math.min(availableSize * 0.6, 300) // Puzzle takes 60% of available space, max 300px
     this.pieceSize = this.puzzleSize / this.gridSize
     
     // Use square puzzle area
@@ -39,8 +45,8 @@ export class PuzzleEngine {
     this.imageHeight = this.puzzleSize
     
     // Center the puzzle in the canvas
-    this.puzzleX = (canvasSize - this.imageWidth) / 2
-    this.puzzleY = (canvasSize - this.imageHeight) / 2
+    this.puzzleX = (canvasDisplaySize - this.imageWidth) / 2
+    this.puzzleY = (canvasDisplaySize - this.imageHeight) / 2
   }
 
   createPieces() {
@@ -68,12 +74,13 @@ export class PuzzleEngine {
   }
 
   shufflePieces() {
-    const margin = 50
+    const canvasDisplaySize = this.canvas.width / (window.devicePixelRatio || 1)
+    const margin = 20
     const shuffleArea = {
       x: margin,
       y: margin,
-      width: this.canvas.width - margin * 2,
-      height: this.canvas.height - margin * 2
+      width: canvasDisplaySize - margin * 2,
+      height: canvasDisplaySize - margin * 2
     }
     
     this.pieces.forEach(piece => {
